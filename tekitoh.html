@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+#overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#box {
+  text-align: center;
+  font-size: 20px;
+  color: black;
+}
+
+.fade {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 1s;
+}
+
+.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+button {
+  margin-top: 20px;
+  padding: 8px 20px;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<div id="overlay">
+  <div id="box">
+    <div id="text" class="fade"></div>
+    <div id="buttons"></div>
+  </div>
+</div>
+
+<script>
+const steps = [
+  {
+    text: "悔しかったらチケット当ててみればいいんじゃないですか？www",
+    buttons: ["悔しい"]
+  },
+  {
+    text: "チケット外した人残念～w",
+    buttons: ["残念…"]
+  },
+  {
+    text: "俺は仙台楽しんできま～すw",
+    buttons: ["楽しんでね"]
+  },
+  {
+    text: "悔しいので金を稼いでからレスバを申し込みますか？",
+    buttons: ["YES", "NO"]
+  }
+];
+
+let index = 0;
+
+function render() {
+  const textEl = document.getElementById("text");
+  const btnEl = document.getElementById("buttons");
+
+  textEl.classList.remove("show");
+
+  setTimeout(() => {
+    textEl.innerText = steps[index].text;
+    textEl.classList.add("show");
+
+    // ボタン生成
+    btnEl.innerHTML = "";
+    steps[index].buttons.forEach(label => {
+      const btn = document.createElement("button");
+      btn.innerText = label;
+      btn.onclick = next;
+      btnEl.appendChild(btn);
+    });
+  }, 200);
+}
+
+function next() {
+  index++;
+  if (index >= steps.length) {
+    document.getElementById("overlay").style.display = "none";
+    return;
+  }
+  render();
+}
+
+// 初回表示
+render();
+</script>
+
+</body>
+</html>
